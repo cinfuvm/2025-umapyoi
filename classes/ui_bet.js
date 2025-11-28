@@ -32,18 +32,22 @@ ScreenBet.prototype.draw=function(){
     print("APUESTAS",8,8,7); 
     print("Banco:"+(this.m.bank|0), W-80,8,7); 
     
-    var SPRITES = [265, 256, 259, 262];
+    var CARD_IDS = [400, 403, 406, 409]; 
 
     for(var s=0;s<4;s++){ 
         var sx=LAY.margin+s*(LAY.betSuitW+8), sy=LAY.betSuitY; 
         
-        rect(sx,sy,LAY.betSuitW,LAY.betSuitH,1); 
-        rectb(sx,sy,LAY.betSuitW,LAY.betSuitH, ink(s)); 
+        var boxW = 18; var boxH = 26;
+        var bx = sx + (LAY.betSuitW - boxW)/2;
+        var by = sy + (LAY.betSuitH - boxH)/2;
+
+        rect(bx, by, boxW, boxH, 1); 
+        rectb(bx, by, boxW, boxH, ink(s)); 
         
-        spr(SPRITES[s], sx+(LAY.betSuitW/2)-8, sy+8, 0, 1, 0, 0, 2, 2);
+        spr(CARD_IDS[s], bx+1, by+1, 0, 1, 0, 0, 2, 3);
         
         var v=this.m.bets[s]||0; 
-        if(v>0) print(v, sx+4, sy+LAY.betSuitH-10, 7); 
+        if(v>0) print(v, sx+4, sy+LAY.betSuitH-2, 7); 
     } 
     
     var cx=LAY.margin; 
@@ -54,5 +58,5 @@ ScreenBet.prototype.draw=function(){
         print(v,cx+6,LAY.chipRowY-8, sel?14:7); 
         cx+=40; 
     } 
-    print("A Empezar B Devolver START Menú",8,H-10,6); 
+    print("A Empezar  START Salir",8,H-10,6); 
 };

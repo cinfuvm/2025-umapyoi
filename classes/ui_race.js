@@ -1,5 +1,5 @@
 // =========================
-// ui_race.js
+// classes/ui_race.js
 // =========================
 function ScreenRace(m){ this.m=m; this.auto=false; this.t=0; }
 
@@ -13,17 +13,17 @@ ScreenRace.prototype.update=function(){
     } 
     if(this.m.winner>=0){ 
         this.m.finishRace(); 
-        if(hs_qualify(this.m.bank)) { nameEntry=new ScreenName(this.m.bank); scene=nameEntry; } 
-        else { scene=finish; } 
+        scene=finish; 
     } 
 };
 
 ScreenRace.prototype.draw=function(){ 
     cls(0); 
+    
+    var ui = new UI();
+    
     var x0=this.m.startX,x1=this.m.finishX,dx=this.m.dx,ys=this.m.ys; 
     
-    var SPRITES = [265, 256, 259, 262];
-
     rectb(x0-10,ys[0]-16,(x1-x0)+20,(ys[3]-ys[0])+32,6); 
     for(var i=0;i<4;i++) line(x0-4,ys[i],x1+4,ys[i],5); 
     for(var k=0;k<=LINKS;k++){ 
@@ -31,25 +31,25 @@ ScreenRace.prototype.draw=function(){
         for(var seg=ys[0]-10; seg<=ys[3]+10; seg+=8) line(x,seg,x,seg+3,col); 
     } 
     
-    for(var l=1;l<=LINE_CARDS;l++){ 
-        var cx=(x0+l*dx)|0, cy=LAY.lineCardsY; 
-        rectb(cx-8,cy-7,16,12,3); 
-        if(this.m.lineRevealed[l]){ 
-            var s=this.m.lineSuits[l]; 
-            spr(SPRITES[s], cx-8, cy-8, 0, 1, 0, 0, 2, 2);
-        } else rect(cx-7,cy-6,14,10,1); 
-    } 
+    ui.drawLineCards(x0, dx, ys, this.m.lineRevealed, this.m.lineSuits);
     
-    for(var j=0;j<4;j++) this.m.caballos[j].draw(); 
-    
-    print("FLIPS:"+this.m.flips,8,6,7); 
-    print(this.auto?"AUTO ON":"AUTO OFF",80,6,this.auto?11:13); 
+    for(var j=0;j<4;j++){ 
+        var isWinner = (this.m.winner === j);
+        this.m.caballos[j].draw(isWinner); 
+    }
+
     for(var s=0;s<4;s++) print('x'+this.m.mults[s], x1+6, ys[s]-4, ink(s)); 
     
     if(this.m.lastCard){ 
-        var cx=LAY.drawCardX, cy=LAY.drawCardY; 
-        spr(SPRITES[this.m.lastCard.s], cx-8, cy-8, 0, 1, 0, 0, 2, 2);
+        ui.drawLastCard(this.m.lastCard);
     } 
     
-    print("A Voltear B Auto START Volver",8,H-10,6); 
+    ui.hudTop();
+
+    var autoText = this.auto ? "ON" : "OFF";
+    var autoCol = this.auto ? 11 : 6;
+    
+    print("A: Voltear", 8, H-6, 6);
+    print("B: Auto " + autoText, 80, H-6, autoCol);
+    print("START: Volver", 160, H-6, 6);
 };
