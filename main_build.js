@@ -167,7 +167,7 @@ Caballo.prototype.draw=function(isWinner, hideIcon){
         var poofFrame = 2 - (this.poofT / 8 | 0);
         poofFrame = clamp(poofFrame, 0, 2);
 
-        spr(SPR_POOF[poofFrame], x-8, y-8, 14, 1, 0, 0, 2, 2);
+        spr(SPR_POOF[poofFrame], x-8, y-8, 0, 1, 0, 0, 2, 2);
         
         this.poofT--;
     }
