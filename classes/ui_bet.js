@@ -27,7 +27,7 @@ ScreenBet.prototype.update=function(){
     if(btnp(0) || btnp(1)){ this.row = (this.row + 1) % 2; sfx(SND_NAV, -1, 8); }
     
     if(btnp(4)){ 
-        sfx(SND_SEL, -1, 20);
+        sfx(SND_SEL, -1, 8, -1, 3);
         if(this.row === 1) this.active = CHIP_VALS[this.col];
         else this.m.placeBet(this.col, this.active);
     }
@@ -47,7 +47,7 @@ ScreenBet.prototype.update=function(){
     var chipStartX=35, chipGap=45; 
     for(var i=0;i<CHIP_VALS.length;i++){ 
         var cx = chipStartX + (i * chipGap), cy = LAY.chipRowY - 22;
-        if(hit(cx, cy, 20, 20) && M.l){ sfx(SND_SEL, -1, 8); this.active = CHIP_VALS[i]; this.row=1; this.col=i; }
+        if(hit(cx, cy, 20, 20) && M.l){ sfx(SND_SEL, -1, 8, -1, 3); this.active = CHIP_VALS[i]; this.row=1; this.col=i; }
     }
     var startX=20, gapX=52;
     for(var s=0;s<4;s++){
@@ -55,7 +55,7 @@ ScreenBet.prototype.update=function(){
         var bx = sx + (LAY.betSuitW - boxW)/2, by = sy + (LAY.betSuitH - boxH)/2;
         if(hit(bx, by, boxW, boxH)){
             if(M.x!=0) { this.row=0; this.col=s; }
-            if((M.lp || (M.l && this.clickCD===0))){ sfx(SND_SEL, -1, 8); this.m.placeBet(s, this.active); this.clickCD=6; }
+            if((M.lp || (M.l && this.clickCD===0))){ sfx(SND_SEL, -1, 8, -1, 3); this.m.placeBet(s, this.active); this.clickCD=6; }
         }
     }
     

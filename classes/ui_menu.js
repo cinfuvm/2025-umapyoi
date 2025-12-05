@@ -18,7 +18,7 @@ ScreenMenu.prototype.update=function(){
     if(btnp(1)){ this.idx=(this.idx+1)%2; sfx(SND_NAV, -1, 8); }
     
     if(btnp(4) || btnp(6)){
-        sfx(SND_SEL, -1, 20);
+        sfx(SND_SEL, -1, 20, -1, 3);
         if(this.idx===0){ 
             model.bank = 1000; 
             pmem(0, 1000); 

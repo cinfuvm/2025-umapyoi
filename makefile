@@ -53,6 +53,10 @@ clean:
 	@echo Archivos eliminados
 	
 html:
-	@echo Exportando a HTML...
-	$(TIC) --fs "." --cli --cmd "new js & import code $(OUTPUT) & import tiles tiles.png & import sprites sprites.png & import map map.map & load base_audio.tic sfx & load base_audio.tic music & export html index.html & exit"
-	@echo ¡Juego exportado exitosamente a index.html!
+	@echo 1. Construyendo el cartucho maestro...
+	$(TIC) --fs "." --cli --cmd "new js & import code $(OUTPUT) & import tiles sprites.png & import map pista.map & load base_audio.tic sfx & load base_audio.tic music & save $(CART) & exit"
+	
+	@echo 2. Exportando a HTML...
+	$(TIC) --fs "." --cli --cmd "load $(CART) & export html index.html & exit"
+	
+	@echo ¡Listo!
